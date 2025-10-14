@@ -1,2 +1,5 @@
 *.txt
-_build
+dist
+__pycache__
+*.spec
+.vscode
