@@ -46,6 +46,6 @@ Report generation and automation to speed up post-engagement documentation.
 
 ---
 
-**Author:** R3DG0BL1N  
-**License:** MIT (see LICENSE)
+**Author:** r3dg0bl1n  
+**License:** MIT (see LICENSE)  
 **Disclaimer:** Use only with explicit permission from the system owner. The author is not responsible for misuse. Unauthorized access, damage or legal consequences are your responsibility.
