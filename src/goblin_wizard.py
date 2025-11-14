@@ -18,9 +18,10 @@
 
 #============================ ALPHA TABLE =============================
 #------------------------------- bugs ---------------------------------
-# [ ]
+# [ ] Looks like r3801 compilation suddenly fails.
 #----------------------------- features -------------------------------
-# [ ]
+# [ ] Improve path handling when calling other scripts.
+# [ ] r3901: Dynamic wrong device detection.
 #======================================================================
 #----------------------------------------------------------------------
 #\ PRE
@@ -34,7 +35,8 @@ def _pre(argv) -> Core:
 
     });
     c.set_err({
-        1: "Compilation process failed. Is PyInstaller installed on this system?"
+        1: "Compilation process failed. Is PyInstaller installed on this system?",
+        2: "Ether Device script failed to execute. Check script for requirements."
     });
     return c;
 
@@ -63,6 +65,13 @@ if __name__ == "__main__":
                 compile_py(info.get("path"), sys.path[0], ofn, True);
             except subprocess.CalledProcessError as e:
                 _core.stop(ERR.C(1), f"PyInstaller error: {e.returncode} {e.cmd}");
+
+    def r3901(info:dict = get_module_info("r3901")) -> None: # ether_device
+        dn = QA("Device label (/dev/sdb1)", [], True).ans;
+        try:
+            subprocess.run([sys.path[0] + "/../" + info.get("path"), dn]);
+        except subprocess.CalledProcessError as e:
+            _core.stop(ERR.C(2), f"Script error: {e.returncode} {e.cmd}");
 
 #/ SRC - Functions
 #----------------------------------------------------------------------

@@ -40,6 +40,7 @@ class ERR:
     NO_ERROR = 0;
     UNEXPECTED_ERROR = 1;
     BAD_USAGE = 2;
+    REQUIRED_MISSING = 3;
     MAX = 99;
 
     @staticmethod

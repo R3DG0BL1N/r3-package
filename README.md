@@ -1,9 +1,15 @@
 # R3 Package  
 **State:** not finished  
-**Version:** v0.2-alpha
+**Version:** v0.2-alpha  
 
 > R3 Package is a portable, easy-to-use suite of ethical hacking tools aimed at beginners.  
 > The package includes `goblin_wizard.py`, a helpful interactive manual for newcomers with notes and extensive help for each r3-pkg script.
+
+
+---
+
+## Requeriments  
+- **Python** >= 3.7
 
 ---
 
@@ -41,11 +47,11 @@ Phishing and social engineering tooling. Automation and templates for phishing c
 ### r38_malware  
 Payloads and delivery helpers intended to run on target hosts once compiled. These are aimed at exploitation, privilege escalation or post-exploit stages.
 
-### r39_report  
-Report generation and automation to speed up post-engagement documentation.
+### r39_other  
+Additional tools that can be useful in various scenarios.
 
 ---
 
-**Author:** R3DG0BL1N  
-**License:** MIT (see LICENSE)
+**Author:** r3dg0bl1n  
+**License:** MIT (see LICENSE)  
 **Disclaimer:** Use only with explicit permission from the system owner. The author is not responsible for misuse. Unauthorized access, damage or legal consequences are your responsibility.

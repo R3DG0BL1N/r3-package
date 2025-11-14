@@ -26,7 +26,7 @@
 #----------------------------------------------------------------------
 #\ PRE
 
-import sys, os, signal;
+import sys, shutil, os, signal;
 from .ERR import ERR;
 from .Utils import goblint, get_module_info;
 
@@ -45,15 +45,16 @@ from .Utils import goblint, get_module_info;
 #\ SRC - Body
 
 class Core:
-    def __init__(self, id:str, argv:list, param:dict, s:bool=False) -> None:
+    def __init__(self, id:str, argv:list, param:dict, s:bool=False, r:list=[]) -> None:
         self._info = get_module_info(id);
         self._valid:bool = True;
         self._args:dict = {};
         self._err:dict = {};
         self._silent:bool = s;
-        
+        self._req:list = r;
+
         param["--help"] = False; param["-h"] = False;
-        self._config:list = ["boring", "blue"];
+        self._config:list = ["boring", "red"];
         for pc in self._config: param[f"--{pc}"] = False;
 
         for i, a in enumerate(argv):
@@ -74,6 +75,16 @@ class Core:
             if not ra.rstrip("%").lstrip("-") in self._args:
                 self._valid = False;
                 break;
+        
+        if self.arg("help") or self.arg("h"):
+            self.print_help();
+            self.stop(ERR.NO_ERROR);
+            return;
+
+        miss = [r for r in self._req if shutil.which(r) is None];
+        if miss:
+            self.stop(ERR.REQUIRED_MISSING, ', '.join(miss));
+            return;
 
         if not self._silent:
             for pc in self._config:
@@ -86,10 +97,6 @@ class Core:
             n=self._info.get("name").lower().replace(" ", "_");
             v=self._info.get("ver");
             goblint(f"@0@c4# @br3-pkg/@0@c2@b{n} v{v}\n");
-    
-        if self.arg("help") or self.arg("h"):
-            self.print_help();
-            self.stop(ERR.NO_ERROR);
 
     def set_err(self, d:dict) -> None:
         for k in d:
@@ -110,6 +117,7 @@ class Core:
                 goblint(f"@r4@b# ERR[@r3{c}@r4] @r2", end="");
                 if c == ERR.UNEXPECTED_ERROR: goblint("Unexpected error.");
                 elif c == ERR.BAD_USAGE: goblint("Bad usage, check help page (-h).");
+                elif c == ERR.REQUIRED_MISSING: goblint("Required package(s) missing.");
                 else: goblint(self._err.get(c, "Unexpected error."));
                 if add: goblint(f"@r4@b# => @0@r1{add}");
             elif c == ERR.NO_ERROR:
@@ -123,7 +131,7 @@ class Core:
         goblint(f"@0@c4@b# @c2Usage@c4: @c0{self._info.get("usage", "")}");
 
         goblint(f"\n@0@c4@b------------ @c3R3 PACKAGE ARGS @c4------------@0");
-        goblint(f"@0@c4@b# @c1--blue@c4: @c0Changes color theme to blue. (Red is cooler)");
+        goblint(f"@0@c4@b# @c1--red@c4: @c0Changes color theme to red. (Red is cooler)");
         goblint(f"@0@c4@b# @c1--boring@c4: @c0Prints in plain text without formatting.");
 
 #/ SRC - Body
