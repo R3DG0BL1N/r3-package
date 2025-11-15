@@ -2,9 +2,11 @@
 **State:** not finished  
 **Version:** v0.2-alpha  
 
-> R3 Package is a portable, easy-to-use suite of ethical hacking tools aimed at beginners.  
-> The package includes `goblin_wizard.py`, a helpful interactive manual for newcomers with notes and extensive help for each r3-pkg script.
+R3 Package is a portable, easy-to-use suite of ethical hacking tools aimed at beginners.  
+The package includes `goblin_wizard.py`, a helpful interactive manual for newcomers with notes and extensive help for each r3-pkg script.
 
+> Be aware that the codebase might look confusing. Why?  
+> It's designed to fit half a screen. Beyond that, it's a challenge for anyone who wants to understand how it works; myself included.
 
 ---
 
