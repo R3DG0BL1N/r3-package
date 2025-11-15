@@ -21,7 +21,8 @@
 #------------------------------- bugs ---------------------------------
 # [ ] 
 #----------------------------- features -------------------------------
-# [ ] Descriptive help page for each script
+# [ ] Descriptive help page for each script.
+# [ ] Exit function feels dirty, maybe I could improve the exit flow.
 #======================================================================
 #----------------------------------------------------------------------
 #\ PRE
@@ -79,12 +80,9 @@ class Core:
         if self.arg("help") or self.arg("h"):
             self.print_help();
             self.stop(ERR.NO_ERROR);
-            return;
 
         miss = [r for r in self._req if shutil.which(r) is None];
-        if miss:
-            self.stop(ERR.REQUIRED_MISSING, ', '.join(miss));
-            return;
+        if miss: self.stop(ERR.REQUIRED_MISSING, ', '.join(miss));
 
         if not self._silent:
             for pc in self._config:
@@ -107,8 +105,8 @@ class Core:
         if not self._valid: self.stop(ERR.BAD_USAGE);
         else: self.welcome();
     
-    def arg(self, a:str) -> str|int|bool:
-        return self._args.get(a, False);
+    def arg(self, a:str, d:str="") -> str|int|bool:
+        return self._args.get(a, d);
     
     def stop(self, c:int, add:str="") -> None:
         if not self._silent:

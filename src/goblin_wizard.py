@@ -59,7 +59,7 @@ if __name__ == "__main__":
     def r3801(info:dict = get_module_info("r3801")) -> None: # keylogger
         goblint("I zee... Wise choice. I will compile this script into an " \
         "executable file for safety reasons.");
-        ofn = QA("Executable file name", [], True).ans;
+        ofn = QA("Executable file name").short([]);
         if ofn:
             try:
                 compile_py(info.get("path"), sys.path[0], ofn, True);
@@ -67,7 +67,7 @@ if __name__ == "__main__":
                 _core.stop(ERR.C(1), f"PyInstaller error: {e.returncode} {e.cmd}");
 
     def r3901(info:dict = get_module_info("r3901")) -> None: # ether_device
-        dn = QA("Device label (/dev/sdb1)", [], True).ans;
+        dn = QA("Device label (/dev/sdb1)").short([]);
         try:
             subprocess.run([sys.path[0] + "/../" + info.get("path"), dn]);
         except subprocess.CalledProcessError as e:
@@ -89,7 +89,7 @@ if __name__ == "__main__":
 
     goblint("@0@c0Woopidy-woopidy, I'm the Goblin Wizard. I'm here to help you hack the Internetz.");
     goblint("My tower holdz powerful spells only available for thoze who are responsible and ethical.");
-    QA("\n@c1@bNow tell me, which zpell do you wish to cast?", qar);
+    QA("\n@c1@bNow tell me, which zpell do you wish to cast?").complex(qar);
 
     _core.stop(ERR.NO_ERROR);
 

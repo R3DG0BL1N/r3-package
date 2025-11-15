@@ -48,49 +48,71 @@ class QA:
             self.text:str = t;
             self.fn = f;
 
-    def __init__(self, t:str, r:list=[], sh:bool=False):
+    def __init__(self, t:str):
         self.text:str = t;
-        self.rules:list = r;
-        self.short:bool = sh;
-        self.ans:str = "";
-        self.start();
     
-    def start(self) -> None:
-        q:str = "";
-        if self.short:
-            q += "@0@c3@b--------------------------------------\n";
-            q += f"@c1@b{self.text}@0@c0";
-            if self.rules: q += " (";
-        else:
-            q += f"@0@c1@b{self.text}\n";
-            q += "@0@c3@b--------------------------------------\n@0";
+    def confirm(self) -> bool:
+        return self.short(["yes", "no"]) == "yes";
 
-        for r in self.rules:
+    # ol: list of options
+    def short(self, ol:list=[]) -> str:
+        q:str = "";
+        q += "@0@c3@b--------------------------------------\n";
+        q += f"@c1@b{self.text}@0@c0";
+        if ol: q += " (";
+
+        for o in ol: q += f"{o}/";
+        if ol: q += "\b)";
+
+        goblint(q, end="");
+
+        ans:str = "";
+        valid:bool = False;
+        while not valid:
+            goblint(f"@c4@b: @0@c0", end="");
+            ans = input().lower().replace(" ", "_");
+            
+            valid = not ol;
+            for o in ol:
+                if o == ans:
+                    valid = True;
+                    goblint("\r\033[K", end="");
+            
+            if not valid:
+                goblint(f"@rb0NOT VALID. Try again c:@0", end="");
+                goblint(f"\033[F\033[K", end="", flush=True);
+                goblint(f"{q}", end="");
+
+        return ans;
+
+    # rl: list of QA.R
+    def complex(self, rl:list=[]) -> None:
+        q:str = "";
+        q += f"@0@c1@b{self.text}\n";
+        q += "@0@c3@b--------------------------------------\n@0";
+
+        for r in rl:
             if isinstance(r, QA.R):
-                if self.short: q += f"{r.inp}/";
-                else: q += f"@0@c3[@c0@b {r.inp} @0@c3] @0@c0@b{r.text}\n";
-        if self.short and self.rules: q += "\b)";
+                q += f"@0@c3[@c0@b {r.inp} @0@c3] @0@c0@b{r.text}\n";
+        
         goblint(q, end="");
 
         valid:bool = False;
         while not valid:
-            goblint(f"@c4@b{": " if self.short else "> "}@0@c0", end="");
-            self.ans = input().lower().replace(" ", "_");
+            goblint(f"@c4@b> @0@c0", end="");
+            ans:str = input().lower().replace(" ", "_");
             
-            valid = not self.rules;
-            for r in self.rules:
-                if isinstance(r, QA.R) and r.inp == self.ans:
+            valid = not rl;
+            for r in rl:
+                if isinstance(r, QA.R) and r.inp == ans:
                     valid = True;
                     goblint("\r\033[K", end="");
                     r.fn();
                     break;
             
             if not valid:
-                n = 2+len(self.ans);
-                if self.short: n += len(q)-2;
                 goblint(f"@rb0NOT VALID. Try again c:@0", end="");
                 goblint(f"\033[F\033[K", end="", flush=True);
-                if self.short: goblint(f"{q}", end="");
 
 #/ SRC - Body
 #----------------------------------------------------------------------
