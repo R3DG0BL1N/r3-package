@@ -24,10 +24,11 @@
 #----------------------------------------------------------------------
 #\ PRE
 
-from .Core import Core;
-from .ERR import ERR;
-from .QA import QA;
-from .Utils import goblint, compile_py, get_info, get_module_info;
+from .Core import Core
+from .ERR import ERR
+from .QA import QA
+from .Utils import goblint, compile_py, get_info, get_module_info, run_py, \
+path, loading
 
 #/ PRE
 #----------------------------------------------------------------------

@@ -34,9 +34,9 @@
 #----------------------------------------------------------------------
 #\ PRE
 
-import sys, os.path as P;
-sys.path.insert(0, P.abspath(P.join(P.dirname(__file__), "../../lib")));
-from r3 import Core;
+import sys, os.path as P
+sys.path.insert(0, P.abspath(P.join(P.dirname(__file__), "../../lib")))
+from r3 import Core
 
 def _pre(argv) -> Core:
     c = Core("r3101", argv, { 
@@ -45,15 +45,15 @@ def _pre(argv) -> Core:
         "-i%": False,
         "-a%": False,
         "-v": False
-    }, False, ["nmap", "masscan", "ffuf", "gobuster"]);
+    }, False, ["nmap", "masscan", "ffuf", "gobuster"])
     c.set_err({
         1: "Host is not reachable",
-    });
-    return c;
+    })
+    return c
 
 if __name__ == "__main__":
-    _core = _pre(sys.argv);
-    _core.load(); # EXIT
+    _core = _pre(sys.argv)
+    _core.load() # EXIT
 
 #/ PRE
 #----------------------------------------------------------------------
@@ -66,24 +66,24 @@ if __name__ == "__main__":
 #\ SRC - Functions
 
 def rep() -> None:
-    pass;
+    pass
 
 def scan() -> dict:
-    d = {};
-    return d;
+    d = {}
+    return d
 
 def dtl(rd:dict) -> dict:
-    d = {};
-    return d;
+    d = {}
+    return d
 
 #/ SRC - Functions
 #----------------------------------------------------------------------
 #\ SRC - MAIN
 
 if __name__ == "__main__":
-    rep();
-    rd = scan();
-    data = dtl(rd);
+    rep()
+    rd = scan()
+    data = dtl(rd)
 
 
 #/ SRC - MAIN

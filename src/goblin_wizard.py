@@ -26,23 +26,24 @@
 #----------------------------------------------------------------------
 #\ PRE
 
-import sys, os.path as P, subprocess;
-sys.path.insert(0, P.abspath(P.join(P.dirname(__file__), "../lib")));
-from r3 import ERR, Core, QA, goblint, compile_py, get_info, get_module_info;
+import sys, os.path as P, subprocess
+
+sys.path.insert(0, P.abspath(P.join(P.dirname(__file__), "../lib")))
+from r3 import ERR, Core, QA, goblint, compile_py, get_info, get_module_info, run_py
 
 def _pre(argv) -> Core:
     c = Core("r3000", argv, {
 
-    });
+    })
     c.set_err({
         1: "Compilation process failed. Is PyInstaller installed on this system?",
         2: "Ether Device script failed to execute. Check script for requirements."
-    });
-    return c;
+    })
+    return c
 
 if __name__ == "__main__":
-    _core = _pre(sys.argv);
-    _core.load(); # EXIT
+    _core = _pre(sys.argv)
+    _core.load() # EXIT
 
 #/ PRE
 #----------------------------------------------------------------------
@@ -54,44 +55,43 @@ if __name__ == "__main__":
 
 if __name__ == "__main__":
     def r3101(info:dict = get_module_info("r3101")) -> None: # lazy_scan
-        goblint("@rb0Beep Boop Beep@0");
+        goblint("@rb0Beep Boop Beep@0")
 
     def r3801(info:dict = get_module_info("r3801")) -> None: # keylogger
         goblint("I zee... Wise choice. I will compile this script into an " \
-        "executable file for safety reasons.");
-        ofn = QA("Executable file name").short([]);
+        "executable file for safety reasons.")
+        ofn = QA("Executable file name").short([])
         if ofn:
-            try:
-                compile_py(info.get("path"), sys.path[0], ofn, True);
+            try: compile_py(info.get("path"), sys.path[0], ofn, True)
             except subprocess.CalledProcessError as e:
-                _core.stop(ERR.C(1), f"PyInstaller error: {e.returncode} {e.cmd}");
+                _core.stop(ERR.C(1), f"PyInstaller error: {e.returncode} {e.cmd}")
 
     def r3901(info:dict = get_module_info("r3901")) -> None: # ether_device
-        dn = QA("Device label (/dev/sdb1)").short([]);
-        try:
-            subprocess.run([sys.path[0] + "/../" + info.get("path"), dn]);
+        dn = QA("Device label (/dev/sdb)").short([])
+        try: run_py(info.get("path"), [dn], True)
         except subprocess.CalledProcessError as e:
-            _core.stop(ERR.C(2), f"Script error: {e.returncode} {e.cmd}");
+            _core.stop(ERR.C(2), f"Script error: {e.returncode} {e.cmd}", False)
+        _core.stop(ERR.NO_ERROR, "", False)
 
 #/ SRC - Functions
 #----------------------------------------------------------------------
 #\ SRC - MAIN
 
 if __name__ == "__main__":
-    qar = [];
+    qar:list = []
     for m in get_info():
         if not m.get("id").startswith("r30"):
             qar.append(QA.R(
                 m.get("id").lstrip("r3"),
                 "@c1r3-pkg/@c0"+m.get("path").lstrip("src/"),
                 locals()[m.get("id")]
-            ));
+            ))
 
-    goblint("@0@c0Woopidy-woopidy, I'm the Goblin Wizard. I'm here to help you hack the Internetz.");
-    goblint("My tower holdz powerful spells only available for thoze who are responsible and ethical.");
-    QA("\n@c1@bNow tell me, which zpell do you wish to cast?").complex(qar);
+    goblint("@0@c0Woopidy-woopidy, I'm the Goblin Wizard. I'm here to help you hack the Internetz.")
+    goblint("My tower holdz powerful spells only available for thoze who are responsible and ethical.")
+    QA("\n@c1@bNow tell me, which zpell do you wish to cast?").complex(qar)
 
-    _core.stop(ERR.NO_ERROR);
+    _core.stop(ERR.NO_ERROR)
 
 #/ SRC - MAIN
 #----------------------------------------------------------------------

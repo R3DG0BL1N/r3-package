@@ -37,15 +37,15 @@
 #\ SRC - Body
 
 class ERR:
-    NO_ERROR = 0;
-    UNEXPECTED_ERROR = 1;
-    BAD_USAGE = 2;
-    REQUIRED_MISSING = 3;
-    MAX = 99;
+    NO_ERROR = 0
+    UNEXPECTED_ERROR = 1
+    BAD_USAGE = 2
+    REQUIRED_MISSING = 3
+    MAX = 99
 
     @staticmethod
     def C(i:int):
-        return ERR.MAX+i;
+        return ERR.MAX+i
 
 #/ SRC - Body
 #----------------------------------------------------------------------
