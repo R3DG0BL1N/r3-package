@@ -111,7 +111,7 @@ def loading(d:bool=False, t:str="COMPILING"): # This is very simple, but what ab
 def get_info() -> list:
     import configparser
     cfg = configparser.ConfigParser()
-    cfg.read(path("/lib/r3/config.ini"))
+    cfg.read(path("/src/info.ini"))
 
     l = []
     for i in cfg:
@@ -123,7 +123,7 @@ def get_info() -> list:
 def get_module_info(i:str) -> dict:
     import configparser
     cfg = configparser.ConfigParser()
-    cfg.read(path("/lib/r3/config.ini"))
+    cfg.read(path("/src/info.ini"))
 
     if not i in cfg:
         return {
