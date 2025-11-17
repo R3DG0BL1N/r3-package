@@ -36,10 +36,9 @@
 #----------------------------------------------------------------------
 #\ SRC - MAIN
 
-import os
-
 def path(p:str="") -> str:
-    return os.environ.get("R3_PATH", "/") + p.lstrip("/")
+    from pathlib import Path as P
+    return str(P(__file__).resolve().parent.parent.parent / p.lstrip("/"))
 
 def goblint(txt:str="", **karg) -> None:
     # I feel this could be WAY more elegant... but meh.

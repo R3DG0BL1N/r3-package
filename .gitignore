@@ -3,3 +3,5 @@ dist
 __pycache__
 *.spec
 .vscode
+.venv
+r3.egg-info

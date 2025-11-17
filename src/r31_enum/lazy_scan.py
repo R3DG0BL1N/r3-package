@@ -34,8 +34,7 @@
 #----------------------------------------------------------------------
 #\ PRE
 
-import sys, os.path as P
-sys.path.insert(0, P.abspath(P.join(P.dirname(__file__), "../../lib")))
+import sys
 from r3 import Core
 
 def _pre(argv) -> Core:

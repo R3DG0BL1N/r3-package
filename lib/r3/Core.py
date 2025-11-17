@@ -22,12 +22,11 @@
 # [ ] 
 #----------------------------- features -------------------------------
 # [ ] Descriptive help page for each script.
-# [ ] Exit function feels dirty, maybe I could improve the exit flow.
+# [ ] Stop function feels dirty, maybe I could improve the exit flow.
 #======================================================================
 #----------------------------------------------------------------------
 #\ PRE
 
-import pathlib
 import sys, shutil, os, signal
 from .ERR import ERR
 from .Utils import goblint, get_module_info
@@ -48,7 +47,6 @@ from .Utils import goblint, get_module_info
 
 class Core:
     def __init__(self, id:str, argv:list, param:dict, s:bool=False, r:list=[]) -> None:
-        os.environ["R3_PATH"] = str(pathlib.Path(__file__).resolve().parent.parent.parent)+"/"
         self._info = get_module_info(id)
         self._valid:bool = True
         self._args:dict = {}
@@ -125,7 +123,6 @@ class Core:
                 if bye: goblint(f"\n@0@c4@b# @c2Bye bye! @c4~ @c3r3dg0bl1n <(¬‿¬)>@0")
         
         for pc in self._config: _=os.environ.pop(f"R3_{pc.upper()}", None)
-        _=os.environ.pop("R3_PATH", None)
         sys.exit(c)
 
     def print_help(self) -> None:

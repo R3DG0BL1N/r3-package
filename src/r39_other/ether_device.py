@@ -37,10 +37,11 @@
 #----------------------------------------------------------------------
 #\ PRE
 
-import sys, os.path as P, os, subprocess
+import sys, os, subprocess, secrets
+from passlib.hash import sha512_crypt as crypt
 
-sys.path.insert(0, P.abspath(P.join(P.dirname(__file__), "../../lib")))
-from r3 import Core, ERR, goblint, QA, loading
+from r3 import Core, ERR, QA
+from r3.Utils import goblint, loading
 
 def _pre(argv) -> Core:
     c = Core("r3901", argv, { 
@@ -79,7 +80,7 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     def chk(act:str) -> None:
         if act == "min":
-            e = P.exists(f"/sys/block/{dev}")
+            e = os.path.exists(f"/sys/block/{dev}")
             if not e: _core.stop(ERR.C(1))
             elif _core.arg("open") and _core.arg("close"): _core.stop(ERR.C(2))
         else:
@@ -90,8 +91,6 @@ if __name__ == "__main__":
     def open() -> None: # This could be cleaner
         chk("open")
 
-        import secrets
-        from passlib.hash import sha512_crypt as crypt
         usr = "s3k" + secrets.token_hex(8)
         run(f"sudo cryptsetup open /dev/{dev} {usr} || exit 1")
 

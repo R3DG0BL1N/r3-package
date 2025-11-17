@@ -3,7 +3,7 @@
 # Brought to you by ~ r3dg0bl1n <(¬‿¬)>
 # -------------------------------- R3 ---------------------------------
 # r3-pkg/goblin_wizard [r3000]
-# v/0.1-alpha
+# v/0.2-alpha
 # --------------------------- INSTRUCTIONS ----------------------------
 # Usage: python3 goblin_wizard.py
 # ------------------------------ NOTES --------------------------------
@@ -19,17 +19,17 @@
 #============================ ALPHA TABLE =============================
 #------------------------------- bugs ---------------------------------
 # [ ] Looks like r3801 compilation suddenly fails.
+# [ ] r3901 open device fails through goblin_wizard.
 #----------------------------- features -------------------------------
-# [ ] Improve path handling when calling other scripts.
+# [X] Improve path handling when calling other scripts.
 # [ ] r3901: Dynamic wrong device detection.
 #======================================================================
 #----------------------------------------------------------------------
 #\ PRE
 
-import sys, os.path as P, subprocess
-
-sys.path.insert(0, P.abspath(P.join(P.dirname(__file__), "../lib")))
-from r3 import ERR, Core, QA, goblint, compile_py, get_info, get_module_info, run_py
+import sys, subprocess
+from r3 import ERR, Core, QA
+from r3.Utils import goblint, compile_py, get_info, get_module_info, path, run_py
 
 def _pre(argv) -> Core:
     c = Core("r3000", argv, {
@@ -62,7 +62,7 @@ if __name__ == "__main__":
         "executable file for safety reasons.")
         ofn = QA("Executable file name").short([])
         if ofn:
-            try: compile_py(info.get("path"), sys.path[0], ofn, True)
+            try: compile_py(info.get("path"), ofn, True)
             except subprocess.CalledProcessError as e:
                 _core.stop(ERR.C(1), f"PyInstaller error: {e.returncode} {e.cmd}")
 

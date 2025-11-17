@@ -15,6 +15,19 @@ The package includes `goblin_wizard.py`, a helpful interactive manual for newcom
 
 ---
 
+## Installation  
+1. `cd /home/user/r3-package` : Move inside r3-package project folder.
+2. `python3 -m venv .venv` : Create virtual environment.
+3. `source .venv/bin/activate` : Enable virtual environment for current session.
+4. `pip install -e .` : Install r3 local library.
+
+OR
+
+1. `cd /home/user/r3-package` : Move inside r3-package project folder.
+2. `pip install -e . --break-system-packages` : Install r3 local library globally.
+
+---
+
 ## Source composition
 Each script is identified by an id (`r3XXX`): the first two digits denote the category (`r31`–`r39`), and the last two digits are the script index within that category (`01`–`99`). Scripts in the `r30` category are framework scripts. Anything outside these categories is likely not intended for direct use.
 
